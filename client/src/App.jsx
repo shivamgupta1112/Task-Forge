@@ -1,12 +1,9 @@
-import React from "react";
+import { Button } from "@/components/ui/button";
 
-const App = () => {
+function App() {
   return (
-    <>
-      <h1>Welcome to the App!</h1>
-      <p>This is a simple React application with tailwind v4.</p>    
-    </>
+    <Button>TaskForge 🚀</Button>
   );
-};
+}
 
 export default App;
