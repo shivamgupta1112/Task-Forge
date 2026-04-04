@@ -13,4 +13,5 @@ Smart Task Management System.
 - Shadcn
 - Node.js
 - Express
-- MySql
+- PostgreSQL
+- Prisma ORM

@@ -1,0 +1,2 @@
+-> .git/info/exclude
+-> Add files not to track

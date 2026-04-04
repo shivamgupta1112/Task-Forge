@@ -1,0 +1,16 @@
+Tag = ek specific commit ka permanent snapshot
+
+To Create Tags:
+git tag -a v1.0.0 -m "Message"
+
+To Delete Tags:
+git tag -d v1.0.0
+git push origin --delete tag v1.0.0
+
+To View entire Tags:
+git tag
+
+To Checkout at Tag
+git checkout v1.0.0
+        OR
+git checkout -b feature/from-v1 v1.0.0 (IN NEW BRANCH)
