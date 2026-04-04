@@ -1,11 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
+import { jwtDecode } from "jwt-decode";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const Dashboard = () => {
+    const navigate = useNavigate();
+
     const [task, setTask] = useState("");
     const [tasks, setTasks] = useState([]);
+
+    useEffect(() => {
+        const token = localStorage.getItem("taskforge-token");
+        if (!token) {
+            console.log("No token found, redirecting to login...");
+            navigate("/login");
+            return;
+        }
+        const decoded = jwtDecode(token);
+        if (decoded.exp * 1000 < Date.now()) {
+            localStorage.removeItem("taskforge-token");
+            console.log("Token expired, logging out...");
+            navigate("/login");
+        }
+    }, []);
 
     const handleAddTask = () => {
         if (!task.trim()) return;
