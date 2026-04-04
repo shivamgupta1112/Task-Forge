@@ -39,7 +39,6 @@ const responseInterceptor = async (response) => {
 
         throw error;
     }
-
     return response.json();
 };
 

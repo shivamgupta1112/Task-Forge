@@ -27,14 +27,9 @@ export default function Login() {
   
     const handleLogin = async () => {
       try {
-        const res = await api.login(form.email, form.password);
-        const data = await res.json();
-  
-        if (res.ok) {
+          const data = await api.login(form.email, form.password);
           localStorage.setItem("taskforge-token", data.token);
           navigate("/");
-        }
-  
       } catch (error) {
         console.error("Login error:", error);
       }

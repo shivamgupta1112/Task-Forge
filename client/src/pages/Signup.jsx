@@ -24,14 +24,9 @@ const Signup = () => {
 
   const handleSignup = async () => {
     try {
-      const res = await api.register(form.email, form.phone, form.password);
-      const data = await res.json();
-
-      if (res.ok) {
+        const data = await api.register(form.email, form.phone, form.password);
         localStorage.setItem("taskforge-token", data.token);
         navigate("/");
-      }
-
     } catch (error) {
       console.error("Signup error:", error);
     }
