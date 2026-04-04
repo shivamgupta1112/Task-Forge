@@ -2,18 +2,45 @@ import { fetchWithInterceptor } from "./apiClient";
 
 const api = {
     login: async (email, password) => {
-        return fetchWithInterceptor("/auth/login", {
+        return fetchWithInterceptor("/v1/auth/login", {
             method: "POST",
             body: JSON.stringify({ email, password }),
         });
     },
 
     register: async (email, phone, password) => {
-        return fetchWithInterceptor("/auth/create", {
+        return fetchWithInterceptor("/v1/auth/create", {
             method: "POST",
             body: JSON.stringify({ email, phone, password }),
         });
     },
+
+    getTasks: async () => {
+        return fetchWithInterceptor("/v1/tasks", {
+            method: "GET",
+        });
+    },
+
+    createTask: async (title, description) => {
+        return fetchWithInterceptor("/v1/tasks", {
+            method: "POST",
+            body: JSON.stringify({ title, description }),
+        });
+    },
+
+    updateTask: async (id, title, description) => {
+        return fetchWithInterceptor(`/v1/tasks/${id}`, {
+            method: "PUT",
+            body: JSON.stringify({ title, description }),
+        });
+    },
+
+    deleteTask: async (id) => {
+        return fetchWithInterceptor(`/v1/tasks/${id}`, {
+            method: "DELETE",
+        });
+    }
+
 };
 
 export default api;

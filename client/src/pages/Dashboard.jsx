@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import api from "@/utils/api";
 import { useNavigate } from "react-router";
 import { jwtDecode } from "jwt-decode";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,9 +27,10 @@ const Dashboard = () => {
         }
     }, []);
 
-    const handleAddTask = () => {
+    const handleAddTask = async () => {
         if (!task.trim()) return;
         setTasks([task, ...tasks]);
+        const data = await api.createTask(task, "this is a description");
         setTask("");
     };
 

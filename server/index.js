@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import authRoutes from "./src/routes/v1/auth.route.js";
+import tasksRoutes from "./src/routes/v1/tasks.route.js";
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use(cors({
 }));
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/tasks", tasksRoutes);
 
 app.get("/api/health", (req, res) => {
     res.status(200).json({
