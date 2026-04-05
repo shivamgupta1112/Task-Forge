@@ -21,17 +21,17 @@ const api = {
         });
     },
 
-    createTask: async (title) => {
+    createTask: async (title, deadline) => {
         return fetchWithInterceptor("/v1/tasks", {
             method: "POST",
-            body: JSON.stringify({ title }),
+            body: JSON.stringify({ title, deadline }),
         });
     },
 
-    updateTask: async (id, title, completed) => {
+    updateTask: async (id, title, deadline, completed) => {
         return fetchWithInterceptor(`/v1/tasks/${id}`, {
             method: "PUT",
-            body: JSON.stringify({ title, completed }),
+            body: JSON.stringify({ title, deadline, completed }),
         });
     },
 

@@ -2,11 +2,12 @@ import prisma from "../../lib/prisma.js";
 
 export const createTask = async (req, res) => {
     try {
-        const { title } = req.body;
+        const { title, deadline } = req.body;
         const userId = req.user.id;
         const task = await prisma.task.create({
             data: {
                 title,
+                deadline: new Date(deadline),
                 userId
             }
         });
@@ -28,15 +29,14 @@ export const getAllTasks = async (req, res) => {
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).json({ message: "Internal server error", error: error.message });
     }
 };
-
 
 export const updateTask = async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, completed } = req.body;
+        const { title, deadline, completed } = req.body;
         const userId = req.user.id;
         const task = await prisma.task.findUnique({
             where: { id: id },
@@ -46,16 +46,15 @@ export const updateTask = async (req, res) => {
         }
         const updatedTask = await prisma.task.update({
             where: { id: id },
-            data: { title, completed },
+            data: { title, deadline: new Date(deadline), completed },
         });
         res.status(200).json({ message: "Task updated successfully", task: updatedTask });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).json({ message: "Internal server error", error: error.message });
     }
 };
-
 
 export const deleteTask = async (req, res) => {
     try {

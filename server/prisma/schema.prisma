@@ -33,6 +33,7 @@ model Task {
   id          String   @id @default(uuid())
   title       String
   completed   Boolean  @default(false)
+  deadline DateTime?
 
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
