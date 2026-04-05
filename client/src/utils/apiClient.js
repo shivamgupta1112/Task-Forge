@@ -72,7 +72,6 @@ const responseInterceptor = async (response) => {
 
 export const fetchWithInterceptor = async (url, options = {}) => {
     const { finalUrl, options: modifiedOptions } = requestInterceptor(url, options);
-
     const response = await fetch(finalUrl, {
         ...modifiedOptions,
         credentials: "include",

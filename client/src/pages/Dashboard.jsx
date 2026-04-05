@@ -38,12 +38,17 @@ const Dashboard = () => {
         });
     }, []);
 
-    const handleAddTask = async () => {
-        if (!task.trim()) return;
-        setTasks([task, ...tasks]);
-        const data = await api.createTask(task);
-        setTasks([data.task, ...tasks]);
-    };
+   const handleAddTask = async () => {
+    if (!task.trim()) return;
+    
+    try {
+        const newTask = await api.createTask(task); 
+        setTasks([newTask.task, ...tasks]); 
+        setTask("");
+    } catch (error) {
+        console.error("Failed to add task:", error);
+    }
+};
 
     const handleDeleteTask = async (index) => {
         await api.deleteTask(tasks[index].id);

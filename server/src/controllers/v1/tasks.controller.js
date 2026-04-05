@@ -38,13 +38,13 @@ export const deleteTask = async (req, res) => {
 
         const userId = req.user.id;
         const task = await prisma.task.findUnique({
-            where: { id: parseInt(id) },
+            where: { id: id },
         });
         if (!task || task.userId !== userId) {
             return res.status(404).json({ message: "Task not found" });
         }
         await prisma.task.delete({
-            where: { id: parseInt(id) },
+            where: { id: id },
         });
         res.status(200).json({ message: "Task deleted successfully" });
     }
