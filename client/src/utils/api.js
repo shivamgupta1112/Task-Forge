@@ -28,10 +28,10 @@ const api = {
         });
     },
 
-    updateTask: async (id, title, description) => {
+    updateTask: async (id, title, completed) => {
         return fetchWithInterceptor(`/v1/tasks/${id}`, {
             method: "PUT",
-            body: JSON.stringify({ title, description }),
+            body: JSON.stringify({ title, completed }),
         });
     },
 

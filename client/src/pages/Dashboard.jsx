@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -39,16 +40,25 @@ const Dashboard = () => {
     }, []);
 
    const handleAddTask = async () => {
-    if (!task.trim()) return;
-    
-    try {
-        const newTask = await api.createTask(task); 
-        setTasks([newTask.task, ...tasks]); 
-        setTask("");
-    } catch (error) {
-        console.error("Failed to add task:", error);
-    }
-};
+        if (!task.trim()) return;
+        
+        try {
+            const newTask = await api.createTask(task); 
+            setTasks([newTask.task, ...tasks]); 
+            setTask("");
+        } catch (error) {
+            console.error("Failed to add task:", error);
+        }
+    };
+
+    const handleUpdateTask = async (index, title, completed) => {
+        try {
+            const updatedTask = await api.updateTask(tasks[index].id, title, completed);
+            setTasks(tasks.map((t, i) => i === index ? updatedTask.task : t));
+        } catch (error) {
+            console.error("Failed to update task:", error);
+        }
+    };
 
     const handleDeleteTask = async (index) => {
         await api.deleteTask(tasks[index].id);
@@ -104,19 +114,33 @@ const Dashboard = () => {
                             </p>
                         ) : (
                             tasks.map((t, i) => (
-                                <div 
-                                    key={i}
-                                    className="bg-gray-700 text-white px-4 py-2 rounded-lg flex justify-between items-center"
-                                >
-                                    <span>{t.title}</span>
-                                    <button
-                                        onClick={() => handleDeleteTask(i)}
-                                        className="text-red-400 hover:text-red-600"
-                                    >
-                                        ✕
-                                    </button>
-                                </div>
-                            ))
+  <div 
+    key={t.id}
+    className="bg-gray-700 text-white px-4 py-2 rounded-lg flex justify-between items-center"
+  >
+    <div className="flex items-center gap-3">
+      
+      <Checkbox
+        checked={t.completed}
+        onCheckedChange={(value) =>
+          handleUpdateTask(i, t.title, value)
+        }
+      />
+
+      <span className={t.completed ? "line-through text-gray-400" : ""}>
+        {t.title}
+      </span>
+
+    </div>
+
+    <button
+      onClick={() => handleDeleteTask(i)}
+      className="text-red-400 hover:text-red-600"
+    >
+      ✕
+    </button>
+  </div>
+))
                         )}
                     </div>
                 </CardContent>
