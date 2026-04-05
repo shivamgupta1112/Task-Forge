@@ -21,10 +21,10 @@ const api = {
         });
     },
 
-    createTask: async (title, description) => {
+    createTask: async (title) => {
         return fetchWithInterceptor("/v1/tasks", {
             method: "POST",
-            body: JSON.stringify({ title, description }),
+            body: JSON.stringify({ title }),
         });
     },
 

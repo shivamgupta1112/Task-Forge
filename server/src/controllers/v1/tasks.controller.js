@@ -32,29 +32,6 @@ export const getAllTasks = async (req, res) => {
     }
 };
 
-export const updateTask = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { title, description } = req.body;
-        const userId = req.user.id;
-        const task = await prisma.task.findUnique({
-            where: { id: parseInt(id) },
-        });
-        if (!task || task.userId !== userId) {
-            return res.status(404).json({ message: "Task not found" });
-        }
-        const updatedTask = await prisma.task.update({
-            where: { id: parseInt(id) },
-            data: { title, description },
-        });
-        res.status(200).json({ message: "Task updated successfully", task: updatedTask });
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal server error" });
-    }
-};
-
 export const deleteTask = async (req, res) => {
     try {
         const { id } = req.params;

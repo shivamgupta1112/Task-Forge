@@ -25,13 +25,29 @@ const Dashboard = () => {
             console.log("Token expired, logging out...");
             navigate("/login");
         }
+
+        // fetch all TM for the user
+        api.getTasks().then((res) => {
+            setTasks(res.tasks);
+        }).catch((err) => {
+            console.error("Error fetching tasks:", err);
+            if (err.status === 401) {
+                localStorage.removeItem("taskforge-token");
+                navigate("/login");
+            }
+        });
     }, []);
 
     const handleAddTask = async () => {
         if (!task.trim()) return;
         setTasks([task, ...tasks]);
-        const data = await api.createTask(task, "this is a description");
-        setTask("");
+        const data = await api.createTask(task);
+        setTasks([data.task, ...tasks]);
+    };
+
+    const handleDeleteTask = async (index) => {
+        await api.deleteTask(tasks[index].id);
+        setTasks(tasks.filter((_, i) => i !== index));
     };
 
     return (
@@ -87,11 +103,9 @@ const Dashboard = () => {
                                     key={i}
                                     className="bg-gray-700 text-white px-4 py-2 rounded-lg flex justify-between items-center"
                                 >
-                                    <span>{t}</span>
+                                    <span>{t.title}</span>
                                     <button
-                                        onClick={() =>
-                                            setTasks(tasks.filter((_, index) => index !== i))
-                                        }
+                                        onClick={() => handleDeleteTask(i)}
                                         className="text-red-400 hover:text-red-600"
                                     >
                                         ✕
